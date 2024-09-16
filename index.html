@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fetch Products</title>
+    
+</head>
+<body>
+
+    <h1>Product List</h1>
+    <ul class="product-list" id="productList"></ul>
+
+    <script>
+       
+        async function fetchAndDisplayProducts() {
+            try {
+                const response = await fetch('http://localhost:3000/products'); 
+                const products = await response.json(); 
+
+                
+                const productList = document.getElementById('productList');
+
+                products.forEach(product => {
+                    const productItem = document.createElement('li');
+                    productItem.classList.add('product-item');
+                    productItem.innerHTML = `
+                        <h2>${product.name}</h2>
+                        <p>Price: ${product.price}</p>
+                        <p>Description: ${product.description}</p>
+                         <p>category: ${product.category}</p>
+                          <p>stock: ${product.stock}</p>
+
+                    `;
+                    
+                    productList.appendChild(productItem);
+                });
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        }
+        window.onload = fetchAndDisplayProducts;
+    </script>
+
+</body>
+</html>
